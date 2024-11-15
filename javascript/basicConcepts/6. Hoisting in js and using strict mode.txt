@@ -1,0 +1,35 @@
+Hoisting is a JavaScript mechanism where variables, function declarations, and classes are moved to the top of their scope before code execution. Essentially, this means that no matter where functions and variables are declared, they are moved to the top of their scope (global or function scope). However, only the declaration is hoisted, not the initialization.
+
+Variable Hoisting
+
+    var declarations are hoisted to the top of their scope but remain undefined until the code assigns a value to the variable.
+
+console.log(x); // Output: undefined
+var x = 5;
+console.log(x); // Output: 5
+
+
+Function Hoisting
+
+    Function declarations are hoisted along with their body, so they can be called before they are defined.
+
+greet(); // Output: "Hello"
+function greet() {
+  console.log("Hello");
+}
+
+
+Class Hoisting
+
+    Classes are hoisted but not initialized. Accessing a class before declaring it results in a ReferenceError.
+
+const instance = new MyClass(); // ReferenceError: Cannot access 'MyClass' before initialization
+class MyClass {
+  constructor() {
+    this.name = "Example";
+  }
+}
+
+
+
+"use strict" enforces stricter parsing and error handling, leading to safer and more predictable code. It helps prevent common mistakes and bad practices by imposing restrictions that are not present in the default mode.

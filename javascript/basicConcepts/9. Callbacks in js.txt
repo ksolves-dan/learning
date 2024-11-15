@@ -1,0 +1,42 @@
+How javascript handles asynchrounous calls and callbacks in js.
+
+A callback is a function that is passed as an argument to another function and is executed after some operation is completed. This is especially common in asynchronous programming where operations such as data fetching, file reading, or timers need to be handled without blocking the main thread.
+
+
+
+Example of a Simple Callback:
+
+function processUserInput(callback) {
+  const name = "Alice";
+  callback(name);
+}
+
+function greetUser(name) {
+  console.log("Hello, " + name + "!");
+}
+
+processUserInput(greetUser); // Output: "Hello, Alice!"
+
+
+Example: Using Callbacks in Asynchronous Operations
+
+function fetchData(callback) {
+  console.log("Fetching data...");
+
+  // Simulating a network request using setTimeout
+  setTimeout(() => {
+    callback("Data retrieved!");
+  }, 2000);
+}
+
+function processData(data) {
+  console.log(data);
+}
+
+fetchData(processData); // Output after 2 seconds: "Data retrieved!"
+
+
+
+What is event loop?
+
+The event loop is a core part of JavaScript’s concurrency model. It is responsible for handling asynchronous operations, like callbacks, promises, and timers, without blocking the main thread. This mechanism allows JavaScript to be non-blocking, even with its single-threaded nature.

@@ -1,0 +1,10 @@
+What is immediately invoked javascript functions?
+
+IFE (Immediately Invoked Function Expression) is a JavaScript function that is executed as soon as it is defined. It's a way to create a function and immediately invoke it without explicitly calling it later. This pattern helps create a new scope and isolate variables from the surrounding scope, making it useful for avoiding variable collisions and managing private data.
+
+
+Example:
+
+(function() {
+  console.log("This is an IIFE and it runs immediately!");
+})();

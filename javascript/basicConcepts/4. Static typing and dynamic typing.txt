@@ -1,0 +1,11 @@
+Which provides what and which type JS uses.?
+
+Static Typing
+
+    Definition: In a statically typed language, the type of a variable is known at compile time. This means that variables are explicitly declared with a type and cannot change their type later.
+    How It Works: If you try to assign a value of a different type to an already defined variable, you will get a compilation error.
+
+Dynamic Typing
+
+    Definition: In a dynamically typed language, the type of a variable is known at runtime. This means you can assign different types of values to the same variable during the execution of a program.
+    How It Works: You don't need to declare a variable with a specific type. The interpreter determines the type of the variable based on the assigned value.

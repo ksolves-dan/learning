@@ -1,0 +1,21 @@
+Introduction to Javascript.
+
+JavaScript is a versatile, high-level, and dynamic programming language primarily used for web development. It enables developers to add interactivity, create dynamic web pages, handle user inputs, manipulate the Document Object Model (DOM), and communicate with servers using technologies like AJAX and Fetch API. Initially designed for client-side scripting in browsers, JavaScript has evolved into a full-fledged programming language with server-side capabilities (using platforms like Node.js) and frameworks for mobile and desktop development.
+
+
+
+How javascript engine works?
+
+Parsing: The engine first parses the JavaScript code. It breaks the code into tokens and creates an Abstract Syntax Tree (AST), which represents the code's structure.
+
+Compilation: Modern JavaScript engines like V8 utilize a Just-In-Time (JIT) compiler. This means that instead of interpreting the code line-by-line directly, they convert the code to an intermediate bytecode or machine code just before it is executed.
+
+Execution: The engine executes the generated code. During execution, engines also perform optimizations and re-optimizations of code based on the runtime behavior (e.g., identifying frequently used code paths, optimizing loops, and more).
+
+
+
+Whether javascript is interpreted or compiled?
+
+JavaScript is often described as both interpreted and compiled, depending on the context and how the engine processes it. Traditionally, it was considered an interpreted language because earlier engines would read and execute JavaScript code line-by-line. However, modern engines use Just-In-Time (JIT) compilation to convert the code to optimized machine code at runtime.
+
+Therefore, JavaScript today behaves more like a JIT-compiled language, blending aspects of both compilation and interpretation. The combination allows JavaScript to be highly performant while retaining its dynamic nature.

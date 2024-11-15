@@ -1,0 +1,48 @@
+Type Conversions
+
+JavaScript is a loosely typed or dynamic language, meaning variables can hold values of any type, and types can be converted either explicitly (by using built-in functions) or implicitly (by JavaScript itself).
+
+
+Variables
+
+Variables are containers for storing data values. In JavaScript, variables can be declared using var, let, or const
+
+var: Older way of declaring variables. It has function scope and can be re-declared within the same scope.
+
+var x = 10;
+var x = 20; // Re-declaration is allowed
+
+let: Introduced in ES6 (ECMAScript 2015). It has block scope and cannot be re-declared within the same scope.
+
+let y = 10;
+// let y = 20; // Error: y has already been declared
+
+const: Used to declare constants. It also has block scope and must be initialized at the time of declaration.
+
+const z = 30;
+// z = 40; // Error: Assignment to constant variable
+
+
+Coercion in javascript.
+
+Coercion refers to the automatic or implicit conversion of values from one data type to another in JavaScript. It can lead to unexpected results if not handled carefully.
+
+    Automatic Conversion in Comparisons
+        == performs type coercion.
+
+console.log(5 == "5"); // true (number is coerced to string)
+
+Strict Comparison (===)
+
+    No coercion occurs; both the value and the type must match.
+
+console.log(5 === "5"); // false (no coercion)
+
+Coercion Examples
+
+console.log("5" - 3); // 2 (string "5" is coerced to number)
+console.log("5" + 3); // "53" (number 3 is coerced to string)
+console.log(true + 1); // 2 (true is coerced to 1)
+console.log(false + 1); // 1 (false is coerced to 0)
+console.log(null + 1); // 1 (null is coerced to 0)
+console.log(undefined + 1); // NaN (undefined cannot be coerced)

@@ -1,0 +1,21 @@
+What is closure and how it helps in module implementation in js.
+
+A closure is a feature in JavaScript where an inner function has access to the outer (enclosing) function’s variables and parameters, even after the outer function has finished executing. Closures enable functions to "remember" the environment in which they were created, making it a powerful concept for data encapsulation, managing state, and building modular code.
+
+
+Example of a Closure:
+
+function outerFunction() {
+  let count = 0; // Local variable in the outer function
+
+  return function innerFunction() {
+    count++; // Inner function accessing outer function's variable
+    console.log(count);
+  };
+}
+
+const increment = outerFunction();
+increment(); // Output: 1
+increment(); // Output: 2
+increment(); // Output: 3
+

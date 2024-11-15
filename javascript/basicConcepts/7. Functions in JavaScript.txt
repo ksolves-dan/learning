@@ -1,0 +1,26 @@
+Functions in JavaScript allow you to encapsulate code, reuse logic, and create modular, flexible code structures.
+Function declarations, function expressions, arrow functions, and IIFE provide flexibility and different behavior patterns.
+Functions have their own scope, and this behaves differently depending on the function type.
+
+
+
+Function Declaration
+
+A function declaration defines a named function. It can be called before its declaration due to hoisting.
+
+Syntax:
+
+function functionName(parameters) {
+  // code to be executed
+}
+
+
+Arrow Functions
+
+Arrow functions provide a concise syntax for writing functions. They do not have their own this context (they inherit this from their parent scope) and are often used in callbacks or simple function expressions.
+
+Syntax:
+
+const functionName = (parameters) => {
+  // code to be executed
+};

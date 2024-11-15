@@ -1,0 +1,58 @@
+Various operators in javascirpt 
+(Addition Subtraction Multiplication Exponentiation (ES2016) Division Modulus (Division Remainder) Increment Decrement)
+
+
+1. Addition (+)
+
+The addition operator adds two values.
+
+let a = 5 + 3; // Result: 8
+let str = 'Hello' + ' World'; // String concatenation: "Hello World"
+
+2. Subtraction (-)
+
+The subtraction operator subtracts the right-hand value from the left-hand value.
+
+let a = 10 - 4; // Result: 6
+
+3. Multiplication (*)
+
+The multiplication operator multiplies two values.
+
+let a = 6 * 3; // Result: 18
+
+4. Exponentiation (**) (ES2016)
+
+The exponentiation operator raises the first operand to the power of the second operand. Introduced in ES2016 (ES7).
+
+let a = 2 ** 3; // Result: 8 (2 to the power of 3)
+
+5. Division (/)
+
+The division operator divides the left-hand value by the right-hand value.
+
+let a = 12 / 4; // Result: 3
+
+6. Modulus (Division Remainder) (%)
+
+The modulus operator returns the remainder of the division of two values.
+
+let a = 10 % 3; // Result: 1 (remainder of 10 divided by 3)
+
+7. Increment (++)
+
+The increment operator increases an integer value by one. It can be used as a prefix (increments the value before using it) or postfix (increments the value after using it).
+
+let a = 5;
+console.log(++a); // Prefix: Result: 6 (a is incremented before printing)
+console.log(a++); // Postfix: Result: 6 (a is printed, then incremented)
+console.log(a);   // Result: 7
+
+8. Decrement (--)
+
+The decrement operator decreases an integer value by one. Like the increment operator, it can be used as a prefix or postfix.
+
+let a = 5;
+console.log(--a); // Prefix: Result: 4 (a is decremented before printing)
+console.log(a--); // Postfix: Result: 4 (a is printed, then decremented)
+console.log(a);   // Result: 3

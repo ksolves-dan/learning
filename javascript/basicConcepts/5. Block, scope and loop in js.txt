@@ -1,0 +1,42 @@
+Scope determines the accessibility (visibility) of variables in different parts of your code. JavaScript has the following types of scopes:
+
+Global Scope
+
+    Variables declared outside of any function or block are in the global scope and can be accessed anywhere in your code.
+    If a variable is declared without var, let, or const, it is added to the global scope (which is discouraged due to potential conflicts).
+
+Example:
+
+let globalVar = "I am global";
+
+function showVar() {
+  console.log(globalVar); // Accessible within the function
+}
+
+showVar(); // Output: "I am global"
+
+Local (Function) Scope
+
+    Variables declared inside a function are local to that function and are not accessible outside of it. Local scope can be nested, meaning functions within functions have access to variables declared in parent functions.
+
+Example:
+
+function greet() {
+  let message = "Hello";
+  console.log(message); // Accessible inside the function
+}
+console.log(message); // Error: 'message' is not defined
+
+Block Scope
+
+    let and const have block scope, meaning they are only accessible within the block in which they are defined.
+
+Example:
+
+if (true) {
+  let blockScopedVar = "I am block-scoped";
+  console.log(blockScopedVar); // Accessible here
+}
+console.log(blockScopedVar); // Error: 'blockScopedVar' is not defined
+
+
