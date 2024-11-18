@@ -1,0 +1,35 @@
+The this keyword in JavaScript refers to the object that is currently executing the code. Its value is determined based on the context in which it is used and can change depending on how a function is called.
+
+Constructor Function Context
+
+    In a constructor function (when creating objects using new), this refers to the newly created instance.
+
+function Person(name) {
+  this.name = name;
+}
+const person1 = new Person('Bob');
+console.log(person1.name); // Bob
+
+
+JavaScript is a prototype-based language, meaning objects can inherit properties and methods from other objects via the prototype chain.
+
+
+Every JavaScript object has an internal property called [[Prototype]], which can be accessed through Object.getPrototypeOf(obj) or __proto__ (non-standard but widely supported).
+
+The prototype chain allows objects to inherit properties and methods from other objects.
+
+function Person(name) {
+  this.name = name;
+}
+Person.prototype.sayHello = function() {
+  console.log(`Hello, my name is ${this.name}`);
+};
+
+const alice = new Person('Alice');
+alice.sayHello(); // "Hello, my name is Alice"
+
+// Adding a method dynamically
+Person.prototype.sayGoodbye = function() {
+  console.log(`${this.name} says goodbye.`);
+};
+alice.sayGoodbye(); // "Alice says goodbye."

@@ -1,0 +1,418 @@
+Var, let and const difference. 
+
+In JavaScript, var, let, and const are used to declare variables. While they may seem similar, they have important differences that impact how they behave, particularly regarding scope, re-declaration, and reassignment.
+
+
+1. var
+
+    Function Scope: Variables declared with var are function-scoped, meaning they are only accessible within the function where they were defined. If declared outside of any function, they become globally scoped.
+    Hoisting: var declarations are hoisted to the top of their scope (function or global). However, only the declaration is hoisted, not the initialization. This means that using the variable before its declaration will result in undefined.
+
+console.log(x); // undefined (not a ReferenceError)
+var x = 5;
+
+Re-declaration: Variables declared with var can be re-declared within the same scope without any error.
+
+var y = 10;
+var y = 20; // No error
+
+Block Scope: Unlike let and const, var is not block-scoped. This means that var variables are not limited to the scope of a block { } (e.g., inside a loop or if statement).
+
+    if (true) {
+      var a = 30;
+    }
+    console.log(a); // 30 (accessible outside the block)
+
+2. let
+
+    Block Scope: Variables declared with let are block-scoped, meaning they are only accessible within the block { } in which they are defined.
+
+if (true) {
+  let b = 40;
+}
+console.log(b); // ReferenceError: b is not defined
+
+Hoisting: let declarations are hoisted to the top of their block but are not initialized. Accessing the variable before its declaration will result in a ReferenceError due to the "temporal dead zone" (TDZ).
+
+console.log(c); // ReferenceError
+let c = 50;
+
+Re-declaration: Variables declared with let cannot be re-declared within the same scope.
+
+let d = 60;
+// let d = 70; // SyntaxError: Identifier 'd' has already been declared
+
+Reassignment: Variables declared with let can be reassigned.
+
+    let e = 80;
+    e = 90; // Works fine
+
+3. const
+
+    Block Scope: Like let, const is also block-scoped.
+
+if (true) {
+  const f = 100;
+}
+console.log(f); // ReferenceError: f is not defined
+
+Hoisting: const declarations are also hoisted but are not initialized until the execution reaches their definition. Accessing them beforehand results in a ReferenceError due to the temporal dead zone.
+
+console.log(g); // ReferenceError
+const g = 110;
+
+Re-declaration: Variables declared with const cannot be re-declared within the same scope.
+
+const h = 120;
+// const h = 130; // SyntaxError: Identifier 'h' has already been declared
+
+No Reassignment: Variables declared with const cannot be reassigned. This makes const ideal for variables that should remain constant after their initial value is assigned.
+
+const i = 140;
+// i = 150; // TypeError: Assignment to constant variable.
+
+
+Arrow functions
+
+Arrow functions are a more concise syntax for writing functions introduced in ECMAScript 6 (ES6). They provide a more streamlined way of creating functions, with several differences from traditional function expressions that make them distinct and useful in certain situations.
+
+Syntax
+
+The basic syntax of an arrow function is:
+
+const functionName = (param1, param2, ...) => {
+  // Function body
+  return result;
+};
+
+
+template literals
+
+
+Template literals are a way to create strings that provide more powerful and flexible capabilities compared to traditional string concatenation with single (' ') or double (" ") quotes. They were introduced in ECMAScript 6 (ES6) and are defined using backticks (`).
+
+Syntax
+
+Template literals are enclosed by backticks (`` ``) instead of single or double quotes. Example:
+
+const message = `Hello, world!`;
+
+
+Destructuring assignment is a convenient way of extracting values from arrays or properties from objects into distinct variables. This feature, introduced in ECMAScript 6 (ES6), makes it easy to unpack and access values in an expressive and readable way.
+
+Destructuring Arrays
+
+You can extract values from arrays and assign them to variables in a single statement:
+
+Example:
+
+const numbers = [1, 2, 3];
+const [first, second, third] = numbers;
+console.log(first); // Output: 1
+console.log(second); // Output: 2
+console.log(third); // Output: 3
+
+
+Destructuring Objects
+
+Object destructuring allows you to extract properties from objects and assign them to variables with matching names:
+
+Example:
+
+const person = { name: 'Alice', age: 25, city: 'Wonderland' };
+const { name, age, city } = person;
+console.log(name); // Output: 'Alice'
+console.log(age);  // Output: 25
+console.log(city); // Output: 'Wonderland'
+
+
+Multi line strings
+
+
+Prior to ECMAScript 6 (ES6), creating multi-line strings in JavaScript was more cumbersome and involved using string concatenation or escape characters like \n for new lines. ES6 introduced template literals using backticks (`), which makes creating multi-line strings much easier and more readable.
+
+Use template literals (`) for an easier, cleaner way to create multi-line strings with line breaks.
+Pre-ES6 methods (concatenation or escape characters) are less readable and generally outdated for modern JavaScript development.
+Template literals are especially useful for constructing complex strings with embedded expressions and formatting.
+
+const multiLineString = `This is a multi-line string.
+It spans across
+multiple lines without needing special characters.`;
+
+console.log(multiLineString);
+/*
+Output:
+This is a multi-line string.
+It spans across
+multiple lines without needing special characters.
+*/
+
+
+ECMA Script
+
+CMAScript (ES) is the standard that defines the scripting language specifications upon which JavaScript is based. ECMAScript was first introduced in 1997 by ECMA International, a standards organization, and is maintained by the ECMA Technical Committee 39 (TC39). The goal of ECMAScript is to standardize JavaScript so that it works consistently across all implementations and environments, such as web browsers and Node.js.
+
+
+Classes in es6
+
+Classes in ES6 provide a cleaner, more intuitive syntax for creating objects and handling inheritance in JavaScript. While they are often described as "syntactic sugar" over JavaScript's existing prototype-based inheritance, classes make it easier for developers to create object-oriented structures, and they resemble class-based languages like Java or C#.
+
+Class Declaration Syntax
+
+A basic class can be declared using the class keyword:
+
+Example:
+
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  // Method defined inside the class
+  greet() {
+    console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+  }
+}
+
+const person1 = new Person('Alice', 30);
+person1.greet(); // Output: "Hello, my name is Alice and I am 30 years old."
+
+
+Modules in ES6 provide a standardized way to organize and manage code in JavaScript. They allow you to split your code into separate files and import/export only the necessary functionality, making code more modular, maintainable, and reusable. ES6 modules work natively in modern browsers and are a powerful way to structure your applications.
+
+
+Encapsulation: Modules keep functionality isolated, avoiding name conflicts and creating modular code.
+
+Reusability: Code in modules can be easily reused across different projects or parts of the application.
+
+Better Performance: Modern browsers optimize module loading and enable features like lazy loading and tree shaking (removing unused code during build time).
+
+Cleaner Syntax: Unlike older module systems like CommonJS (used in Node.js) or AMD, ES6 modules offer a cleaner and more readable syntax.
+
+Exporting Modules
+
+Modules can export data, functions, objects, or classes. There are two primary types of exports: named exports and default exports.
+Named Exports
+
+Named exports allow you to export multiple values from a module. You must import them using their exact names (with the option to rename during import).
+
+Example (named exports):
+
+// mathUtils.js
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;
+
+// You can also export variables and functions separately
+const multiply = (a, b) => a * b;
+export { multiply };
+
+
+Rest parameters and spread operator
+
+The rest parameters and spread operator are two powerful features introduced in ES6. They use the same syntax (...), but they serve different purposes depending on how and where they are used in the code.
+
+
+Rest parameters allow a function to accept an indefinite number of arguments as an array. It provides a cleaner way to handle a variable number of function arguments without using the older arguments object.
+
+Syntax:
+
+function functionName(...restParam) {
+  // restParam is an array
+}
+
+Example:
+
+function sum(...numbers) {
+  return numbers.reduce((acc, num) => acc + num, 0);
+}
+
+console.log(sum(1, 2, 3, 4)); // Output: 10
+console.log(sum(10, 20));     // Output: 30
+
+
+The spread operator allows an iterable (e.g., an array, string, or object) to be expanded in places where zero or more arguments (for function calls) or elements (for array literals) are expected. It "spreads" elements out into individual elements.
+Common Use Cases of the Spread Operator
+
+    Function Calls The spread operator can be used to pass an array of arguments as individual arguments to a function.
+
+    Example:
+
+function multiply(a, b, c) {
+  return a * b * c;
+}
+
+const numbers = [2, 3, 4];
+console.log(multiply(...numbers)); // Output: 24
+
+
+Key Differences Between Rest and Spread
+
+    Rest Parameters (...args):
+        Used in function definitions to collect all remaining arguments into a single array.
+        Syntax applies when defining a function parameter list.
+
+    Spread Operator (...):
+        Used to spread elements of an array, string, or object into individual elements or properties.
+        Syntax applies in function calls, array literals, or object literals.
+
+
+Variable scope
+
+Scope in JavaScript defines where a variable is accessible within the code. There are two primary scopes:
+
+    Global Scope
+    Local Scope (Function or Block Scope)
+
+1. Global Scope
+
+    Variables declared outside any function or block are in the global scope.
+    Global variables are accessible from anywhere in the program.
+
+Example:
+
+let globalVar = 'I am global';
+
+function display() {
+  console.log(globalVar); // Accessible
+}
+
+display(); // Output: "I am global"
+
+2. Local Scope (Function and Block Scope)
+
+    Variables declared inside a function are in the function scope and are accessible only within that function.
+    Variables declared with let or const inside a block {} (e.g., if statements, loops) have block scope.
+
+Example (function scope):
+
+function show() {
+  let localVar = 'I am local';
+  console.log(localVar); // Accessible within the function
+}
+
+show();
+// console.log(localVar); // Uncaught ReferenceError: localVar is not defined
+
+
+Closures
+
+A closure is a function that "remembers" its lexical scope even when the function is executed outside of that scope. This allows inner functions to access variables defined in their outer function, even after the outer function has finished executing.
+
+Example:
+
+function outerFunction() {
+  let outerVar = 'I am from the outer scope';
+
+  return function innerFunction() {
+    console.log(outerVar); // Accessing outerVar from the parent scope
+  };
+}
+
+const myClosure = outerFunction();
+myClosure(); // Output: "I am from the outer scope"
+
+
+Global Object
+
+The global object provides built-in properties and methods that can be accessed anywhere in the program. It differs based on the environment:
+
+    Browser: The global object is window.
+    Node.js: The global object is global.
+
+Example:
+
+console.log(window === this); // true (in browsers)
+console.log(global); // Global object in Node.js
+
+In the global scope, variables declared with var become properties of the global object. Variables declared with let and const do not.
+
+Example:
+
+var globalVar = 'Hello';
+let globalLet = 'World';
+
+console.log(window.globalVar); // Output: "Hello" (in browsers)
+console.log(window.globalLet); // Output: undefined
+
+
+Function Object
+
+In JavaScript, functions are treated as first-class objects. This means they can be assigned to variables, passed as arguments, and returned from other functions. Functions are objects with properties like name and length.
+
+Example:
+
+function add(a, b) {
+  return a + b;
+}
+
+console.log(add.name); // Output: "add"
+console.log(add.length); // Output: 2 (number of parameters)
+
+
+
+The "new Function" Syntax
+
+JavaScript provides a way to create functions using the Function constructor:
+
+Syntax:
+
+let func = new Function(arg1, arg2, ..., functionBody);
+
+Example:
+
+let add = new Function('a', 'b', 'return a + b');
+console.log(add(2, 3)); // Output: 5
+
+Key Points:
+
+    It creates functions dynamically but does not create closures (the function’s scope is limited to the global scope or its immediate context).
+    Not commonly used in modern development due to security concerns and performance issues.
+
+
+Scheduling: setTimeout and setInterval
+
+
+1. setTimeout
+
+setTimeout executes a function after a specified delay (in milliseconds).
+
+Syntax:
+
+setTimeout(function, delay, arg1, arg2, ...);
+
+Example:
+
+function greet() {
+  console.log('Hello after 2 seconds');
+}
+
+setTimeout(greet, 2000); // Executes greet after 2000 milliseconds (2 seconds)
+
+With Arguments:
+
+function greet(name) {
+  console.log(`Hello, ${name}`);
+}
+
+setTimeout(greet, 2000, 'Alice'); // Output: "Hello, Alice" after 2 seconds
+
+2. setInterval
+
+setInterval repeatedly executes a function after a specified interval of time (in milliseconds).
+
+Syntax:
+
+setInterval(function, interval, arg1, arg2, ...);
+
+Example:
+
+function repeat() {
+  console.log('This message repeats every 1 second');
+}
+
+const intervalId = setInterval(repeat, 1000);
+
+// To stop the interval
+setTimeout(() => clearInterval(intervalId), 5000); // Stops after 5 seconds
+

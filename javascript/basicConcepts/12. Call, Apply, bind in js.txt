@@ -1,0 +1,23 @@
+call(): Invokes the function immediately, with this and individual arguments specified.
+
+apply(): Invokes the function immediately, with this and arguments provided as an array.
+
+bind(): Returns a new function with a bound this value, which can be invoked later.
+
+
+const person1 = { name: 'Alice' };
+const person2 = { name: 'Bob' };
+
+function introduce(greeting) {
+  console.log(`${greeting}, my name is ${this.name}`);
+}
+
+// Using call
+introduce.call(person1, 'Hello'); // "Hello, my name is Alice"
+
+// Using apply
+introduce.apply(person2, ['Hi']); // "Hi, my name is Bob"
+
+// Using bind
+const introduceAlice = introduce.bind(person1, 'Hey');
+introduceAlice(); // "Hey, my name is Alice"

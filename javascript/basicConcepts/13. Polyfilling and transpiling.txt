@@ -1,0 +1,51 @@
+Polyfilling refers to the practice of creating code that provides missing functionality on older browsers or environments where newer features of JavaScript are not supported. A polyfill is essentially a piece of code (typically a library or a set of functions) that adds support for newer features in environments where they are not built-in.
+
+
+Example
+
+Suppose you want to use Array.prototype.includes(), which is not supported by older browsers like Internet Explorer.
+
+Without a Polyfill:
+
+const fruits = ['apple', 'banana'];
+console.log(fruits.includes('apple')); // May not work in older browsers
+
+With a Polyfill:
+
+if (!Array.prototype.includes) {
+  Array.prototype.includes = function(valueToFind, fromIndex) {
+    return this.indexOf(valueToFind, fromIndex) !== -1;
+  };
+}
+
+const fruits = ['apple', 'banana'];
+console.log(fruits.includes('apple')); // Now works even on older browsers
+
+Popular Polyfill Libraries
+
+    Core-JS: A comprehensive library that polyfills many modern JavaScript features.
+    
+    Polyfill.io: A service that delivers polyfills based on the user's browser.
+
+
+
+
+Transpiling is the process of converting code written in one version or type of a programming language into another. In the context of JavaScript, transpiling often means converting modern JavaScript (ES6+ features) into an older version (e.g., ES5) to ensure compatibility with older browsers that do not support newer syntax and features.
+
+A transpiler (short for trans-compiler) reads modern JavaScript code and transforms it into equivalent code that can run in older environments.
+Example
+
+Modern JavaScript (ES6):
+
+const greet = (name) => `Hello, ${name}!`;
+
+ES5-compatible code (after transpiling):
+
+var greet = function(name) {
+  return 'Hello, ' + name + '!';
+};
+
+Tools for Transpiling
+
+    Babel: The most popular tool for transpiling modern JavaScript into an older version. Babel allows developers to use the latest language features and still maintain compatibility with older environments.
+
