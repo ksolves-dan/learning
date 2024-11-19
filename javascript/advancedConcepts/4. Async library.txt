@@ -1,0 +1,90 @@
+async/await
+
+async and await were introduced in ES2017 (ES8) to make asynchronous code easier to write and understand, offering a more readable way to work with Promises.
+An async function always returns a Promise. When called, the function executes and pauses at each await expression, waiting for the promise to resolve before continuing.
+
+async function fetchData() {
+  try {
+    const response = await fetch('https://api.example.com/data');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+fetchData();
+
+
+
+Async Waterfall (with async libraries)
+
+    Waterfall is a control flow pattern where each task is executed in series, passing the result to the next task. This pattern is often used with libraries like async.js.
+    The goal is to execute functions sequentially where each function depends on the result of the previous one.
+
+Example using async library (Node.js):
+
+const async = require('async');
+
+async.waterfall([
+  function(callback) {
+    callback(null, 'Task 1 result');
+  },
+  function(result1, callback) {
+    console.log(result1); // Output: 'Task 1 result'
+    callback(null, 'Task 2 result');
+  },
+  function(result2, callback) {
+    console.log(result2); // Output: 'Task 2 result'
+    callback(null, 'Final result');
+  }
+], function (err, finalResult) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(finalResult); // Output: 'Final result'
+  }
+});
+
+
+Async Map
+
+    Async map allows asynchronous functions to run in parallel, but with the same order of the results corresponding to the input order. This pattern ensures parallel processing of multiple async operations.
+    Libraries like async provide this method.
+
+Example using async library:
+
+const async = require('async');
+
+async.map([1, 2, 3], function(item, callback) {
+  setTimeout(() => {
+    callback(null, item * 2); // Simulate async operation
+  }, 100);
+}, function(err, results) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(results); // Output: [2, 4, 6]
+  }
+});
+
+
+Async MapSeries
+
+    Async mapSeries is similar to async map but runs each asynchronous operation one at a time in series instead of in parallel.
+    This can be useful when operations depend on one another or when order is important.
+
+Example using async library:
+
+const async = require('async');
+
+async.mapSeries([1, 2, 3], function(item, callback) {
+  setTimeout(() => {
+    callback(null, item * 2); // Simulate async operation
+  }, 100);
+}, function(err, results) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(results); // Output: [2, 4, 6]
+  }
+});

@@ -1,0 +1,102 @@
+Methods of Primitives
+
+    JavaScript allows primitives (e.g., strings, numbers) to use methods because of "wrapper objects." These objects (e.g., String, Number) temporarily wrap primitive values, providing methods.
+
+1. Numbers
+
+    Basic Methods: toFixed(), toExponential(), toPrecision().
+    Number Object Methods: Number.isInteger(), Number.parseFloat(), Number.parseInt(), Number.isNaN().
+    Example:
+
+    const num = 123.456;
+    console.log(num.toFixed(2)); // Output: '123.46'
+
+2. Strings
+
+    Common String Methods: charAt(), charCodeAt(), concat(), includes(), indexOf(), slice(), split(), trim(), replace(), toLowerCase(), toUpperCase().
+    Example:
+
+    const text = "Hello, World!";
+    console.log(text.toLowerCase()); // Output: 'hello, world!'
+    console.log(text.includes("World")); // Output: true
+
+3. Arrays
+
+    Creating Arrays: Using array literals ([]) or new Array().
+    Basic Array Methods: push(), pop(), shift(), unshift(), slice(), splice().
+    Array Iteration Methods: forEach(), map(), filter(), reduce(), some(), every().
+    Other Methods: concat(), find(), findIndex(), includes(), sort(), reverse().
+    Example:
+
+    const arr = [1, 2, 3, 4];
+    const doubled = arr.map(num => num * 2);
+    console.log(doubled); // Output: [2, 4, 6, 8]
+
+4. Iterables
+
+    Definition: An object is iterable if it implements the Symbol.iterator method.
+    Common Iterables: Strings, Arrays, Maps, Sets.
+    For...of Loop: Allows iteration over iterable objects.
+    Example:
+
+    const str = "hello";
+    for (const char of str) {
+      console.log(char); // Output: 'h', 'e', 'l', 'l', 'o'
+    }
+
+5. Map and Set
+
+    Map: A collection of key-value pairs where keys can be of any type.
+        Methods: set(), get(), delete(), has(), size.
+        Example:
+
+    const map = new Map();
+    map.set('key1', 'value1');
+    console.log(map.get('key1')); // Output: 'value1'
+
+Set: A collection of unique values (no duplicates).
+
+    Methods: add(), delete(), has(), size.
+    Example:
+
+        const set = new Set([1, 2, 2, 3]);
+        console.log(set.size); // Output: 3
+
+6. WeakMap and WeakSet
+
+    WeakMap: Similar to Map but keys must be objects and are weakly referenced (allowing garbage collection).
+    WeakSet: Similar to Set but only stores objects and holds "weak" references.
+    They do not prevent objects from being garbage-collected and do not have methods like size, keys(), or values().
+
+7. Object.keys, Object.values, Object.entries
+
+    Object.keys(): Returns an array of a given object's own enumerable property names.
+    Object.values(): Returns an array of a given object's own enumerable property values.
+    Object.entries(): Returns an array of a given object's own enumerable key-value pairs.
+    Example:
+
+    const obj = { a: 1, b: 2 };
+    console.log(Object.keys(obj)); // Output: ['a', 'b']
+    console.log(Object.values(obj)); // Output: [1, 2]
+    console.log(Object.entries(obj)); // Output: [['a', 1], ['b', 2]]
+
+8. Date and Time
+
+    Creating Dates: new Date(), Date.now().
+    Methods: getFullYear(), getMonth(), getDate(), getDay(), getHours(), setHours(), toISOString().
+    Example:
+
+    const now = new Date();
+    console.log(now.getFullYear()); // Output: current year
+
+9. JSON Methods (JSON.stringify and JSON.parse)
+
+    JSON.stringify(): Converts a JavaScript object/array into a JSON string.
+    JSON.parse(): Converts a JSON string back into a JavaScript object.
+    Example:
+
+const obj = { name: "John", age: 30 };
+const jsonString = JSON.stringify(obj);
+console.log(jsonString); // Output: '{"name":"John","age":30}'
+const parsedObj = JSON.parse(jsonString);
+console.log(parsedObj); // Output: { name: 'John', age: 30 }

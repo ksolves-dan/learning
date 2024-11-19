@@ -1,0 +1,43 @@
+Currying is a functional programming technique that transforms a function with multiple arguments into a sequence of functions, each taking a single argument. Instead of taking all arguments at once, a curried function takes the first argument and returns a new function that takes the second argument, and so on, until all arguments have been provided.
+
+This technique is useful for creating more reusable, modular, and specialized functions. Currying allows you to easily create partially applied functions.
+Example of Currying
+
+    Non-Curried Function:
+
+function add(a, b) {
+  return a + b;
+}
+console.log(add(2, 3)); // Output: 5
+
+Here, add is a regular function that takes two arguments.
+
+Curried Function:
+
+    function curriedAdd(a) {
+      return function(b) {
+        return a + b;
+      };
+    }
+    // Calling the curried function
+    const add5 = curriedAdd(5); // Returns a function that adds 5
+    console.log(add5(3)); // Output: 8
+    console.log(curriedAdd(2)(3)); // Output: 5
+
+    In this curried version, curriedAdd takes one argument and returns another function that takes the second argument. This allows for partially applied functions, like add5 in this example.
+
+Benefits of Currying
+
+    Reusability: You can create specialized functions based on more general ones.
+    Readability: Currying can make function calls more readable and expressive.
+    Avoiding Repeated Logic: Allows you to set up initial conditions or common parameters.
+
+Automatic Currying with Arrow Functions
+
+Using arrow functions, you can make a curried function more concise:
+
+const curriedMultiply = a => b => a * b;
+
+const multiplyBy2 = curriedMultiply(2); // Returns a function that multiplies by 2
+console.log(multiplyBy2(5)); // Output: 10
+console.log(curriedMultiply(3)(4)); // Output: 12
