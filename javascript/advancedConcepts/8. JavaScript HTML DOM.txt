@@ -1,0 +1,149 @@
+1. DOM Element Selectors
+
+    getElementById()
+        Selects a single element with a specific id.
+        Syntax: document.getElementById("id").
+        Example:
+
+    <div id="example">Hello!</div>
+    <script>
+      const element = document.getElementById("example");
+      console.log(element.textContent); // Outputs: Hello!
+    </script>
+
+getElementsByName()
+
+    Selects elements with a specific name attribute. Useful for forms.
+    Returns a NodeList.
+    Syntax: document.getElementsByName("name").
+    Example:
+
+    <input type="text" name="username" value="John">
+    <input type="text" name="username" value="Doe">
+    <script>
+      const elements = document.getElementsByName("username");
+      console.log(elements.length); // Outputs: 2
+    </script>
+
+getElementsByTagName()
+
+    Selects elements with a specified tag (e.g., div, p).
+    Returns a live HTMLCollection (updated with DOM changes).
+    Syntax: document.getElementsByTagName("tagName").
+    Example:
+
+    <p>First Paragraph</p>
+    <p>Second Paragraph</p>
+    <script>
+      const paragraphs = document.getElementsByTagName("p");
+      console.log(paragraphs[0].textContent); // Outputs: First Paragraph
+    </script>
+
+getElementsByClassName()
+
+    Selects elements with a specific class.
+    Returns a live HTMLCollection.
+    Syntax: document.getElementsByClassName("className").
+    Example:
+
+    <div class="example">Item 1</div>
+    <div class="example">Item 2</div>
+    <script>
+      const elements = document.getElementsByClassName("example");
+      console.log(elements.length); // Outputs: 2
+    </script>
+
+querySelector() and querySelectorAll()
+
+    querySelector(): Returns the first element that matches a CSS selector.
+        Syntax: document.querySelector("selector").
+        Example:
+
+    <div class="example">First</div>
+    <div class="example">Second</div>
+    <script>
+      const element = document.querySelector(".example");
+      console.log(element.textContent); // Outputs: First
+    </script>
+
+querySelectorAll(): Returns all elements that match a CSS selector (static NodeList).
+
+    Syntax: document.querySelectorAll("selector").
+    Example:
+
+    <div class="item">Item 1</div>
+    <div class="item">Item 2</div>
+    <script>
+      const items = document.querySelectorAll(".item");
+      items.forEach(item => console.log(item.textContent));
+    </script>
+
+2. JavaScript Events and Event Handling
+
+    JavaScript Events
+        Actions or occurrences in the browser (e.g., click, mouseover, submit).
+
+    addEventListener()
+        Attaches an event handler to an element.
+        Syntax: element.addEventListener(event, function).
+        Example:
+
+    <button id="myButton">Click Me</button>
+    <script>
+      const button = document.getElementById("myButton");
+      button.addEventListener("click", function() {
+        alert("Button was clicked!");
+      });
+    </script>
+
+Event Bubbling
+
+    Events propagate from the target element to its parent elements.
+    Example:
+
+    <div id="parent">
+      <button id="child">Click me</button>
+    </div>
+    <script>
+      document.getElementById("parent").addEventListener("click", () => {
+        alert("Parent clicked");
+      });
+      document.getElementById("child").addEventListener("click", (event) => {
+        alert("Button clicked");
+        event.stopPropagation(); // Prevents event propagation to parent
+      });
+    </script>
+
+stopPropagation()
+
+    Stops the event from propagating to parent elements.
+    Useful to control event bubbling.
+
+preventDefault()
+
+    Prevents the default behavior of an element (e.g., stopping form submission, link navigation).
+    Syntax: event.preventDefault().
+    Example:
+
+    <a href="https://example.com" id="link">Click me</a>
+    <script>
+      document.getElementById("link").addEventListener("click", function(event) {
+        event.preventDefault(); // Stops link navigation
+        alert("Link click prevented!");
+      });
+    </script>
+
+3. JavaScript HTML DOM Collections
+
+    querySelectorAll()
+        Selects all elements that match a specified CSS selector.
+        Returns a static NodeList.
+        Syntax: document.querySelectorAll("selector").
+        Example:
+
+<div class="item">Item 1</div>
+<div class="item">Item 2</div>
+<script>
+  const items = document.querySelectorAll(".item");
+  items.forEach(item => console.log(item.textContent)); // Outputs: Item 1, Item 2
+</script>
