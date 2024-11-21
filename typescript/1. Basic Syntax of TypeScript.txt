@@ -1,0 +1,8 @@
+Basic Syntax of TypeScript
+
+    TypeScript extends JavaScript by adding static types.
+    Code is written in .ts files and transpiled to JavaScript using the TypeScript Compiler (tsc).
+    A basic program:
+
+let message: string = "Hello, TypeScript!";
+console.log(message);

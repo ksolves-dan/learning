@@ -1,0 +1,9 @@
+Variable Declaration
+
+    Keywords: let, const, var.
+    TypeScript allows you to specify variable types explicitly or let it infer types.
+
+let username: string = "John";
+const pi: number = 3.14;
+let isActive: boolean; // Declared but uninitialized
+isActive = true; // Assign value

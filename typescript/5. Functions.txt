@@ -1,0 +1,22 @@
+Functions in TypeScript
+
+    Functions with parameter types and return types.
+    Example:
+
+function add(x: number, y: number): number {
+    return x + y;
+}
+console.log(add(10, 20));
+
+Optional Parameters:
+
+function greet(name: string, message?: string): string {
+    return message ? `${message}, ${name}` : `Hello, ${name}`;
+}
+
+Default Parameters:
+
+    function multiply(x: number, y: number = 1): number {
+        return x * y;
+    }
+

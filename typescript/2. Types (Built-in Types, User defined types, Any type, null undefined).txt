@@ -1,0 +1,28 @@
+Types in TypeScript
+
+    Built-in Types:
+        number, string, boolean, void, undefined, null, etc.
+        Example:
+
+    let age: number = 25;
+    let isStudent: boolean = true;
+
+User-defined Types:
+
+    interface, type, enum, class.
+    Example:
+
+    type Point = { x: number; y: number };
+    let p: Point = { x: 10, y: 20 };
+
+Any Type:
+
+    Allows variables to hold values of any type.
+    Example:
+
+    let randomValue: any = 10;
+    randomValue = "A string now"; // Valid
+
+null and undefined:
+
+    Represent absence of value.

@@ -1,0 +1,10 @@
+Operators in TypeScript
+
+    Arithmetic Operators: +, -, *, /, %
+    Relational Operators: ==, !=, >, <, >=, <=
+    Logical Operators: &&, ||, !
+    Bitwise Operators: &, |, ^, ~, <<, >>, >>>
+    Example:
+
+let sum = 10 + 20; // Arithmetic
+let isEqual = 10 == "10"; // Relational
