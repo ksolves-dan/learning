@@ -1,0 +1,155 @@
+TypeScript Code Snippets for Documentation
+
+1. Adding Two Numbers
+
+function add(a: number, b: number): number {
+  const sum = a + b;
+  return sum;
+}
+console.log(add(5, 10)); // Output: 15
+
+
+
+
+2. Primitive Types
+
+let name: string = "TypeScript";
+let version: number = 5.0;
+let isStable: boolean = true;
+
+console.log(name, version, isStable); // Output: TypeScript 5.0 true
+
+
+
+
+3. Array Declaration
+
+let numbers: number[] = [10, 20, 30];
+let moreNumbers: Array<number> = [40, 50, 60];
+
+console.log(numbers);      // Output: [10, 20, 30]
+console.log(moreNumbers);  // Output: [40, 50, 60]
+
+
+
+
+4. Using `any` Type
+
+let data: any = "Hello";
+data = 42; // Allowed
+data = true; // Also allowed
+console.log(data); // Output: true
+
+
+
+
+5. Void Type in Functions
+
+function logMessage(message: string): void {
+  console.log(`Log: ${message}`);
+}
+logMessage("This is a log"); // Output: Log: This is a log
+
+
+
+
+6. Arrow Functions
+
+let multiply = (a: number, b: number): number => a * b;
+console.log(multiply(4, 5)); // Output: 20
+
+
+
+
+7. Enums
+
+enum Role {
+  Admin,
+  Editor,
+  Viewer,
+}
+let userRole: Role = Role.Editor;
+console.log(userRole); // Output: 1 (index of Editor)
+
+
+
+
+8. Class Declaration
+
+class Employee {
+  name: string;
+  salary: number;
+
+  constructor(name: string, salary: number) {
+    this.name = name;
+    this.salary = salary;
+  }
+
+  promote(): void {
+    this.salary += 10000;
+  }
+}
+
+let emp = new Employee("John", 60000);
+emp.promote();
+console.log(emp.salary); // Output: 70000
+
+
+
+
+9. Rest Parameters
+
+function sumAll(...values: number[]): number {
+  return values.reduce((sum, current) => sum + current, 0);
+}
+console.log(sumAll(1, 2, 3, 4)); // Output: 10
+
+
+
+
+10. Using `tsconfig.json`
+json
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "outDir": "./dist",
+    "sourceMap": true
+  },
+  "include": ["src//*"],
+  "exclude": ["node_modules"]
+}
+
+
+
+
+11. Optional Parameters
+
+function greet(name: string, greeting?: string): void {
+  if (!greeting) greeting = "Hello";
+  console.log(`${greeting}, ${name}!`);
+}
+greet("Alice");              // Output: Hello, Alice!
+greet("Bob", "Hi there");    // Output: Hi there, Bob!
+
+
+
+
+12. Unknown Type
+
+let value: unknown = "This is a string";
+
+if (typeof value === "string") {
+  console.log(value.toUpperCase()); // Output: THIS IS A STRING
+}
+
+
+
+
+13. Destructuring in Parameters
+
+function displayPoint({ x, y }: { x: number; y: number }) {
+  console.log(`Point: (${x}, ${y})`);
+}
+displayPoint({ x: 10, y: 20 }); // Output: Point: (10, 20)
