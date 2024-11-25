@@ -1,0 +1,87 @@
+Basic Concepts of Web Front End
+
+    Definition: The front end is the visual part of a website or application that users interact with.
+        Technologies:
+            HTML: Structure of the web page.
+            CSS: Styling and layout.
+            JavaScript: Behavior and interactivity.
+        Tools:
+            Frameworks: Angular, React, Vue.js.
+            Libraries: Bootstrap, Tailwind CSS.
+    Key Features:
+        Responsiveness: Ensuring compatibility across devices.
+        Performance: Optimizing loading speed and interactions.
+        Accessibility: Catering to users with disabilities.
+
+What is Angular and its Positives?
+
+    Definition: Angular is a TypeScript-based front-end framework developed by Google for building dynamic, scalable, and maintainable web applications.
+    Positives:
+        Two-Way Data Binding: Synchronizes data between the model and the view.
+        Component-Based Architecture: Encourages reusable UI components.
+        Dependency Injection: Simplifies component and service interaction.
+        Powerful CLI: Speeds up development with boilerplate generation and automation.
+        Cross-Platform Development: Supports web, mobile, and desktop apps.
+        Large Community and Documentation: Extensive support and resources.
+
+Component and OOPS Concepts in Angular
+
+    Component:
+        The basic building block of Angular applications.
+        Comprises:
+            HTML for the template.
+            CSS for styles.
+            TypeScript for logic.
+        Example:
+
+        @Component({
+          selector: 'app-example',
+          templateUrl: './example.component.html',
+          styleUrls: ['./example.component.css']
+        })
+        export class ExampleComponent {}
+
+    OOPS Concepts in Angular:
+        Classes: Angular components and services are built using classes.
+        Inheritance: Base classes for reusable logic.
+        Encapsulation: Private and public modifiers for data hiding.
+        Polymorphism: Flexible component and service behavior.
+        Abstraction: Abstract classes and interfaces to define blueprints.
+
+Master-Slave Component in Angular
+
+    Definition: A pattern where a master (parent) component controls or passes data to slave (child) components.
+    Data Flow:
+        Input Decorators: Pass data from parent to child.
+        Output Decorators: Emit events from child to parent.
+    Example:
+        Master (Parent) Component:
+
+<app-child [data]="parentData" (notify)="onNotify($event)"></app-child>
+
+Child Component:
+
+        @Input() data: string;
+        @Output() notify = new EventEmitter<string>();
+        this.notify.emit('Child to Parent Message');
+
+Angular Versions (V1 to Latest)
+
+    AngularJS (V1):
+        JavaScript-based.
+        Two-way data binding.
+        DOM-based templating.
+        Limitations: Performance and maintainability issues in large apps.
+    Angular (V2 and Beyond):
+        Rewritten in TypeScript.
+        Component-based architecture.
+        Improved performance and tooling.
+    Key Updates in Angular Versions:
+        Angular 4: Reduced package size, animations module.
+        Angular 5: Progressive web apps support.
+        Angular 6: CLI workspaces, tree-shakable providers.
+        Angular 7: Drag-and-drop module, virtual scrolling.
+        Angular 8: Differential loading, Ivy preview.
+        Angular 9: Ivy renderer default.
+        Angular 10: Optional strict mode.
+        Angular 11–16: Continuous optimizations, new debugging tools, standalone components.
