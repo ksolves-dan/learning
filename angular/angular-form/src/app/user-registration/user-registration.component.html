@@ -1,0 +1,198 @@
+<div class="min-h-screen bg-gray-900 flex items-center justify-center p-6">
+    <form 
+      [formGroup]="userForm" 
+      (ngSubmit)="onSubmit()" 
+      class="w-full max-w-2xl bg-gray-800 shadow-2xl rounded-2xl p-8 space-y-6 border border-gray-700"
+    >
+      <h2 class="text-3xl font-bold text-center text-white mb-6">User Registration</h2>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- First Name -->
+        <div class="space-y-2">
+          <label for="firstName" class="block text-sm font-medium text-gray-300">First Name</label>
+          <input 
+            type="text" 
+            id="firstName" 
+            formControlName="firstName" 
+            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 
+                   transition-colors duration-300 
+                   placeholder-gray-500
+                   invalid:border-red-500 invalid:text-red-400"
+            placeholder="Enter first name"
+            [class.border-red-500]="firstName?.invalid && firstName?.touched"
+          >
+          <div *ngIf="firstName?.invalid && firstName?.touched" class="text-red-400 text-xs mt-1">
+            <small *ngIf="firstName?.errors?.['required']">First Name is required</small>
+            <small *ngIf="firstName?.errors?.['minlength']">Minimum 3 characters required</small>
+          </div>
+        </div>
+  
+        <!-- Last Name -->
+        <div class="space-y-2">
+          <label for="lastName" class="block text-sm font-medium text-gray-300">Last Name</label>
+          <input 
+            type="text" 
+            id="lastName" 
+            formControlName="lastName" 
+            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 
+                   transition-colors duration-300 
+                   placeholder-gray-500
+                   invalid:border-red-500 invalid:text-red-400"
+            placeholder="Enter last name"
+            [class.border-red-500]="lastName?.invalid && lastName?.touched"
+          >
+          <div *ngIf="lastName?.invalid && lastName?.touched" class="text-red-400 text-xs mt-1">
+            <small *ngIf="lastName?.errors?.['required']">Last Name is required</small>
+            <small *ngIf="lastName?.errors?.['minlength']">Minimum 3 characters required</small>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Email -->
+      <div class="space-y-2">
+        <label for="email" class="block text-sm font-medium text-gray-300">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                 transition-colors duration-300 
+                 placeholder-gray-500
+                 invalid:border-red-500 invalid:text-red-400"
+          placeholder="Enter email address"
+          [class.border-red-500]="email?.invalid && email?.touched"
+        >
+        <div *ngIf="email?.invalid && email?.touched" class="text-red-400 text-xs mt-1">
+          <small *ngIf="email?.errors?.['required']">Email is required</small>
+          <small *ngIf="email?.errors?.['email']">Invalid email format</small>
+        </div>
+      </div>
+  
+      <!-- Permanent Address -->
+      <div class="space-y-2">
+        <label for="permanentAddress" class="block text-sm font-medium text-gray-300">Permanent Address</label>
+        <textarea 
+          id="permanentAddress" 
+          formControlName="permanentAddress" 
+          class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                 transition-colors duration-300 
+                 placeholder-gray-500
+                 invalid:border-red-500 invalid:text-red-400"
+          placeholder="Enter permanent address"
+          rows="3"
+          [class.border-red-500]="permanentAddress?.invalid && permanentAddress?.touched"
+        ></textarea>
+        <div *ngIf="permanentAddress?.invalid && permanentAddress?.touched" class="text-red-400 text-xs mt-1">
+          <small *ngIf="permanentAddress?.errors?.['required']">Permanent Address is required</small>
+        </div>
+      </div>
+  
+      <!-- Current Address -->
+      <div class="space-y-2">
+        <label for="currentAddress" class="block text-sm font-medium text-gray-300">Current Address</label>
+        <div class="flex items-center space-x-3 mb-2">
+          <button 
+            type="button" 
+            (click)="copyPermanentAddress()" 
+            class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 transition-colors duration-300"
+          >
+            Same as Permanent Address
+          </button>
+        </div>
+        <textarea 
+          id="currentAddress" 
+          formControlName="currentAddress" 
+          class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                 transition-colors duration-300 
+                 placeholder-gray-500
+                 invalid:border-red-500 invalid:text-red-400"
+          placeholder="Enter current address"
+          rows="3"
+          [class.border-red-500]="currentAddress?.invalid && currentAddress?.touched"
+        ></textarea>
+        <div *ngIf="currentAddress?.invalid && currentAddress?.touched" class="text-red-400 text-xs mt-1">
+          <small *ngIf="currentAddress?.errors?.['required']">Current Address is required</small>
+        </div>
+      </div>
+  
+      <!-- Contact Number -->
+      <div class="space-y-2">
+        <label for="contactNumber" class="block text-sm font-medium text-gray-300">Contact Number</label>
+        <input 
+          type="tel" 
+          id="contactNumber" 
+          formControlName="contactNumber" 
+          class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                 transition-colors duration-300 
+                 placeholder-gray-500
+                 invalid:border-red-500 invalid:text-red-400"
+          placeholder="Enter contact number"
+          [class.border-red-500]="contactNumber?.invalid && contactNumber?.touched"
+        >
+        <div *ngIf="contactNumber?.invalid && contactNumber?.touched" class="text-red-400 text-xs mt-1">
+          <small *ngIf="contactNumber?.errors?.['required']">Contact Number is required</small>
+          <small *ngIf="contactNumber?.errors?.['pattern']">Invalid Indian Phone Number</small>
+        </div>
+      </div>
+  
+      <!-- Password -->
+      <div class="space-y-2">
+        <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                 transition-colors duration-300 
+                 placeholder-gray-500
+                 invalid:border-red-500 invalid:text-red-400"
+          placeholder="Enter password"
+          [class.border-red-500]="password?.invalid && password?.touched"
+        >
+        <div *ngIf="password?.invalid && password?.touched" class="text-red-400 text-xs mt-1">
+          <small *ngIf="password?.errors?.['required']">Password is required</small>
+          <small *ngIf="password?.errors?.['minlength'] || password?.errors?.['maxlength']">
+            Password must be between 3 and 6 characters
+          </small>
+        </div>
+      </div>
+  
+      <!-- Confirm Password -->
+      <div class="space-y-2">
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-300">Confirm Password</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          formControlName="confirmPassword" 
+          class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                 transition-colors duration-300 
+                 placeholder-gray-500
+                 invalid:border-red-500 invalid:text-red-400"
+          placeholder="Confirm password"
+          [class.border-red-500]="confirmPassword?.invalid && confirmPassword?.touched"
+        >
+        <div *ngIf="confirmPassword?.invalid && confirmPassword?.touched" class="text-red-400 text-xs mt-1">
+          <small *ngIf="confirmPassword?.errors?.['required']">Confirm Password is required</small>
+          <small *ngIf="confirmPassword?.errors?.['passwordMismatch']">Passwords do not match</small>
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        [disabled]="userForm.invalid"
+        class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 
+               transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Submit
+      </button>
+    </form>
+  </div>

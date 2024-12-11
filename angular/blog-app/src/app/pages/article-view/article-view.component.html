@@ -1,0 +1,6 @@
+<div *ngIf="article" class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4">{{ article.title }}</h1>
+    <p class="text-gray-300 mb-6">{{ article.description }}</p>
+    <div [innerHTML]="article.content" class="prose prose-invert max-w-none"></div>
+  </div>
+  

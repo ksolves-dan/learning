@@ -1,0 +1,71 @@
+<header class="bg-secondary shadow-md">
+  <nav class="container mx-auto px-4 py-4">
+    <div class="flex justify-between items-center">
+      <a
+        routerLink="/"
+        class="text-2xl font-bold text-accent hover:text-accent-foreground transition-all duration-300 transform hover:scale-105"
+      >
+        Blog App
+      </a>
+      <ul class="flex space-x-4">
+        <li>
+          <a
+            routerLink="/blogs"
+            routerLinkActive="text-accent"
+            class="hover:text-accent-foreground transition-colors duration-300 ease-in-out"
+          >
+            Blogs
+          </a>
+        </li>
+        <li>
+          <a
+            routerLink="/contact"
+            routerLinkActive="text-accent"
+            class="hover:text-accent-foreground transition-colors duration-300 ease-in-out"
+          >
+            Contact
+          </a>
+        </li>
+        <ng-container *ngIf="!isLoggedIn; else loggedInLinks">
+          <li>
+            <a
+              routerLink="/login"
+              routerLinkActive="text-accent"
+              class="hover:text-accent-foreground transition-colors duration-300 ease-in-out"
+            >
+              Login
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="/register"
+              routerLinkActive="text-accent"
+              class="hover:text-accent-foreground transition-colors duration-300 ease-in-out"
+            >
+              Register
+            </a>
+          </li>
+        </ng-container>
+        <ng-template #loggedInLinks>
+          <li>
+            <a
+              routerLink="/add-blog"
+              routerLinkActive="text-accent"
+              class="hover:text-accent-foreground transition-colors duration-300 ease-in-out"
+            >
+              Add Blog
+            </a>
+          </li>
+          <li>
+            <button
+              (click)="logout()"
+              class="hover:text-accent-foreground transition-colors duration-300 ease-in-out text-red-400 hover:text-red-300"
+            >
+              Logout
+            </button>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </nav>
+</header>
