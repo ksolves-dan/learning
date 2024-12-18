@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { NgIf } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,14 +35,15 @@ export class LoginComponent {
         next: () => {
           this.router.navigate(['/blogs']);
         },
-        error: () => {
+        error: (err) => {
           this.error = 'Invalid credentials';
           this.isLoading = false;
         },
         complete: () => {
           this.isLoading = false;
-        },
+        }
       });
     }
   }
 }
+

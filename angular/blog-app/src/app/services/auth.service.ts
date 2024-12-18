@@ -7,6 +7,7 @@ interface User {
   _id: string;
   name: string;
   email: string;
+  role: string;
   token: string;
 }
 
@@ -24,8 +25,8 @@ export class AuthService {
     }
   }
 
-  register(name: string, email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${environment.apiUrl}/auth/register`, { name, email, password })
+  register(name: string, email: string, password: string, role: string): Observable<User> {
+    return this.http.post<User>(`${environment.apiUrl}/auth/register`, { name, email, password, role })
       .pipe(
         tap(user => this.setCurrentUser(user))
       );
@@ -52,9 +53,18 @@ export class AuthService {
     return !!this.currentUserSubject.value;
   }
 
+  isAdmin(): boolean {
+    return this.currentUserSubject.value?.role === 'admin';
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
   private setCurrentUser(user: User): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('token', user.token);
+    localStorage.setItem('role', user.role);
     this.currentUserSubject.next(user);
   }
 }

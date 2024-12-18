@@ -2,21 +2,46 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { ArticleService, Article } from '../../services/article.service';
+import { ArticleService } from '../../services/article.service';
 import { RichTextEditorComponent } from '../../utils/rich-text-editor/rich-text-editor.component';
-import { catchError, of, Observable } from 'rxjs';
+import { TagInputModule } from 'ngx-chips';
 
 @Component({
   selector: 'app-article-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, RichTextEditorComponent],
-  templateUrl: './article-edit.component.html',
+  imports: [ReactiveFormsModule, NgIf, RichTextEditorComponent, TagInputModule],
+  template: `
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">{{ isNewArticle ? 'Create' : 'Edit' }} Blog</h2>
+      <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="title" class="block text-sm font-medium mb-1">Title</label>
+          <input type="text" id="title" formControlName="title" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
+        </div>
+        <div class="mb-4">
+          <label for="description" class="block text-sm font-medium mb-1">Description</label>
+          <textarea id="description" formControlName="description" rows="3" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+        </div>
+        <div class="mb-4">
+          <label for="tags" class="block text-sm font-medium mb-1">Tags</label>
+          <tag-input formControlName="tags"></tag-input>
+        </div>
+        <div class="mb-6">
+          <label for="content" class="block text-sm font-medium mb-1">Content</label>
+          <app-rich-text-editor formControlName="content"></app-rich-text-editor>
+        </div>
+        <button type="submit" [disabled]="articleForm.invalid || isLoading" class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
+          {{ isLoading ? 'Saving...' : (isNewArticle ? 'Create' : 'Update') }}
+        </button>
+      </form>
+    </div>
+  `,
 })
 export class ArticleEditComponent implements OnInit {
   articleForm: FormGroup;
   isLoading = false;
   isNewArticle = true;
-  articleId: string = '';
+  articleId: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -25,18 +50,18 @@ export class ArticleEditComponent implements OnInit {
     private router: Router
   ) {
     this.articleForm = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(200)]],
-      description: ['', [Validators.required, Validators.maxLength(500)]],
-      content: ['', [Validators.required]]
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      content: ['', [Validators.required]],
+      tags: [[]],
     });
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
+      if (params['id']) {
         this.isNewArticle = false;
-        this.articleId = id.toString();
+        this.articleId = params['id'];
         this.loadArticle(this.articleId);
       }
     });
@@ -44,62 +69,45 @@ export class ArticleEditComponent implements OnInit {
 
   loadArticle(id: string | null): void {
     if (id) {
-      this.articleService.getArticle(id)
-        .pipe(
-          catchError(error => {
-            console.error('Error loading article', error);
-            return of(null);
-          })
-        )
-        .subscribe(article => {
-          if (article) {
-            this.articleForm.patchValue({
-              title: article.title,
-              description: article.description,
-              content: article.content
-            });
-          }
-        });
+      this.articleService.getArticle(id).subscribe({
+        next: (article) => {
+          this.articleForm.patchValue({
+            ...article,
+            tags: article.tags.map(tag => ({ display: tag, value: tag }))
+          });
+        },
+        error: (error) => {
+          console.error('Error loading article', error);
+        }
+      });
     }
   }
 
   onSubmit(): void {
-    if (this.articleForm.invalid) {
-      this.articleForm.markAllAsTouched();
-      return;
-    }
+    if (this.articleForm.valid) {
+      this.isLoading = true;
+      const articleData = {
+        ...this.articleForm.value,
+        tags: this.articleForm.value.tags.map((tag: { display: string }) => tag.display)
+      };
+      
+      const request = this.isNewArticle
+        ? this.articleService.createArticle(articleData)
+        : this.articleService.updateArticle(this.articleId as string, articleData);
 
-    this.isLoading = true;
-
-    const articleData = {
-      title: this.articleForm.get('title')?.value,
-      description: this.articleForm.get('description')?.value,
-      content: this.articleForm.get('content')?.value
-    };
-
-    let saveObservable: Observable<Article | null>;
-
-    if (this.isNewArticle) {
-      saveObservable = this.articleService.createArticle(articleData);
-    } else if (this.articleId) {
-      saveObservable = this.articleService.updateArticle(this.articleId, articleData);
-    } else {
-      saveObservable = of(null);
-    }
-
-    saveObservable
-      .pipe(
-        catchError(error => {
+      request.subscribe({
+        next: () => {
+          this.router.navigate(['/blogs']);
+        },
+        error: (error) => {
           console.error('Error saving article', error);
           this.isLoading = false;
-          return of(null);
-        })
-      )
-      .subscribe(response => {
-        this.isLoading = false;
-        if (response) {
-          this.router.navigate(['/blogs']);
+        },
+        complete: () => {
+          this.isLoading = false;
         }
       });
+    }
   }
 }
+
