@@ -4,32 +4,34 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
-interface Article {
-  _id: string;
-  title: string;
-  description: string;
-  content: string;
-  author: string;
-  tags: string[];
-  isApproved: boolean;
-  comments: Comment[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Comment {
+export interface Reply {
   _id: string;
   user: string;
+  username: string;  // Added to match backend
+  content: string;
+  createdAt: string;
+}
+
+export interface Comment {
+  _id: string;
+  user: string;
+  username: string;  // Added to match backend
   content: string;
   createdAt: string;
   replies: Reply[];
 }
 
-interface Reply {
+export interface Article {
   _id: string;
-  user: string;
+  title: string;
+  description: string;
   content: string;
+  author: string;
+  tags: string[];  // Make sure tags is included
+  isApproved: boolean;
+  comments: Comment[];
   createdAt: string;
+  updatedAt: string;
 }
 
 @Injectable({
@@ -51,7 +53,6 @@ export class ArticleService {
 
   getArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(`${environment.apiUrl}/articles`).pipe(
-      tap(articles => console.log('Fetched articles:', articles)),
       catchError(this.handleError)
     );
   }
@@ -62,7 +63,7 @@ export class ArticleService {
     );
   }
 
-  createArticle(articleData: Omit<Article, '_id' | 'author' | 'createdAt' | 'updatedAt' | 'isApproved' | 'comments'>): Observable<Article> {
+  createArticle(articleData: Partial<Article>): Observable<Article> {
     return this.http.post<Article>(`${environment.apiUrl}/articles`, articleData).pipe(
       catchError(this.handleError)
     );
@@ -93,11 +94,11 @@ export class ArticleService {
   }
 
   addReply(articleId: string, commentId: string, content: string): Observable<Reply> {
-    console.log(`Adding reply to article ${articleId}, comment ${commentId}`);
-    return this.http.post<Reply>(`${environment.apiUrl}/articles/${articleId}/comments/${commentId}/replies`, { content }).pipe(
-      tap(reply => console.log('Reply added:', reply)),
+    return this.http.post<Reply>(
+      `${environment.apiUrl}/articles/${articleId}/comments/${commentId}/replies`,
+      { content }
+    ).pipe(
       catchError(this.handleError)
     );
   }
 }
-

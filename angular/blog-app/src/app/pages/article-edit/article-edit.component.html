@@ -1,24 +1,39 @@
 <div class="max-w-2xl mx-auto">
-    <h2 class="text-2xl font-bold mb-6">{{ isNewArticle ? 'Create' : 'Edit' }} Blog</h2>
-    <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
-      <div class="mb-4">
-        <label for="title" class="block text-sm font-medium mb-1">Title</label>
-        <input type="text" id="title" formControlName="title" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
-      </div>
-      <div class="mb-4">
-        <label for="description" class="block text-sm font-medium mb-1">Description</label>
-        <textarea id="description" formControlName="description" rows="3" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
-      </div>
-      <div class="mb-4">
-        <label for="tags" class="block text-sm font-medium mb-1">Tags (comma-separated)</label>
-        <input type="text" id="tags" formControlName="tags" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
-      </div>
-      <div class="mb-6">
-        <label for="content" class="block text-sm font-medium mb-1">Content</label>
-        <app-rich-text-editor formControlName="content"></app-rich-text-editor>
-      </div>
-      <button type="submit" [disabled]="articleForm.invalid || isLoading" class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
-        {{ isLoading ? 'Saving...' : (isNewArticle ? 'Create' : 'Update') }}
-      </button>
-    </form>
-  </div>
+  <h2 class="text-2xl font-bold mb-6">{{ isNewArticle ? 'Create' : 'Edit' }} Blog</h2>
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label for="title" class="block text-sm font-medium mb-1">Title</label>
+      <input type="text" id="title" formControlName="title" 
+             class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
+    </div>
+    <div>
+      <label for="description" class="block text-sm font-medium mb-1">Description</label>
+      <textarea id="description" formControlName="description" rows="3" 
+                class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+    </div>
+    <div>
+      <label for="tags" class="block text-sm font-medium mb-1">Tags</label>
+      <tag-input
+        formControlName="tags"
+        [secondaryPlaceholder]="'Enter tags'"
+        [placeholder]="'+ Tag'"
+        [separatorKeyCodes]="[13, 188]"
+        [addOnBlur]="true"
+        [modelAsStrings]="true"
+        class="bg-primary border border-gray-600 rounded-md text-primary-foreground text-black focus-within:ring-2 focus-within:ring-accent" 
+        [theme]="'dark'"
+        [ripple]="false"
+      >
+      </tag-input>
+    </div>
+    <div>
+      <label for="content" class="block text-sm font-medium mb-1">Content</label>
+      <app-rich-text-editor formControlName="content"></app-rich-text-editor>
+    </div>
+    <button type="submit" 
+            [disabled]="articleForm.invalid || isLoading" 
+            class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed">
+      {{ isLoading ? 'Saving...' : (isNewArticle ? 'Create' : 'Update') }}
+    </button>
+  </form>
+</div>

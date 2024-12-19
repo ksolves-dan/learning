@@ -70,8 +70,6 @@ export class UserRegistrationComponent implements OnInit {
   // Form submission method
   onSubmit(): void {
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
-      // Perform submission logic here
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.userForm.controls).forEach(field => {

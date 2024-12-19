@@ -10,32 +10,7 @@ import { TagInputModule } from 'ngx-chips';
   selector: 'app-article-edit',
   standalone: true,
   imports: [ReactiveFormsModule, NgIf, RichTextEditorComponent, TagInputModule],
-  template: `
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-2xl font-bold mb-6">{{ isNewArticle ? 'Create' : 'Edit' }} Blog</h2>
-      <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
-        <div class="mb-4">
-          <label for="title" class="block text-sm font-medium mb-1">Title</label>
-          <input type="text" id="title" formControlName="title" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
-        </div>
-        <div class="mb-4">
-          <label for="description" class="block text-sm font-medium mb-1">Description</label>
-          <textarea id="description" formControlName="description" rows="3" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
-        </div>
-        <div class="mb-4">
-          <label for="tags" class="block text-sm font-medium mb-1">Tags</label>
-          <tag-input formControlName="tags"></tag-input>
-        </div>
-        <div class="mb-6">
-          <label for="content" class="block text-sm font-medium mb-1">Content</label>
-          <app-rich-text-editor formControlName="content"></app-rich-text-editor>
-        </div>
-        <button type="submit" [disabled]="articleForm.invalid || isLoading" class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
-          {{ isLoading ? 'Saving...' : (isNewArticle ? 'Create' : 'Update') }}
-        </button>
-      </form>
-    </div>
-  `,
+  templateUrl: './article-edit.component.html',
 })
 export class ArticleEditComponent implements OnInit {
   articleForm: FormGroup;
@@ -86,17 +61,30 @@ export class ArticleEditComponent implements OnInit {
   onSubmit(): void {
     if (this.articleForm.valid) {
       this.isLoading = true;
-      const articleData = {
-        ...this.articleForm.value,
-        tags: this.articleForm.value.tags.map((tag: { display: string }) => tag.display)
-      };
       
+      // Get form values
+      const formValues = { ...this.articleForm.value };
+      
+      let processedTags: string[] = [];
+      
+      if (formValues.tags) {
+        processedTags = formValues.tags.map((tag: any) => {
+          if (typeof tag === 'string') return tag;
+          if (typeof tag === 'object') return tag.value || tag.display || tag;
+          return tag;
+        }).filter((tag: any) => tag); // Remove any undefined/null values
+      }
+
+      const articleData = {
+        ...formValues,
+        tags: processedTags
+      };
       const request = this.isNewArticle
         ? this.articleService.createArticle(articleData)
         : this.articleService.updateArticle(this.articleId as string, articleData);
 
       request.subscribe({
-        next: () => {
+        next: (response) => {
           this.router.navigate(['/blogs']);
         },
         error: (error) => {
@@ -107,6 +95,8 @@ export class ArticleEditComponent implements OnInit {
           this.isLoading = false;
         }
       });
+    } else {
+      console.log('Form is invalid:', this.articleForm.errors);
     }
   }
 }

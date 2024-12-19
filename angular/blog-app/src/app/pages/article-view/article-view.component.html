@@ -2,45 +2,79 @@
   <h1 class="text-3xl font-bold mb-4">{{ article.title }}</h1>
   <p class="text-gray-300 mb-6">{{ article.description }}</p>
   <div class="flex flex-wrap gap-2 mb-4">
-    <span *ngFor="let tag of article.tags" class="bg-accent text-white px-2 py-1 rounded-full text-sm">{{ tag }}</span>
+    <span *ngFor="let tag of article.tags" class="bg-gray-700 text-gray-300 px-2 py-1 rounded-md text-sm">{{ tag }}</span>
   </div>
   <div [innerHTML]="article.content" class="prose prose-invert max-w-none mb-8"></div>
   
   <h2 class="text-2xl font-bold mb-4">Comments</h2>
   
   <!-- Toggle Comment Input -->
-  <button *ngIf="isLoggedIn" (click)="toggleCommentInput()" class="bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent mb-4">
+  <button 
+    *ngIf="isLoggedIn" 
+    (click)="toggleCommentInput()" 
+    class="bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent mb-4"
+  >
     {{ showCommentInput ? 'Cancel' : 'Add Comment' }}
   </button>
-  
+
   <!-- Comment Input -->
-  <form *ngIf="showCommentInput" [formGroup]="commentForm" (ngSubmit)="addComment()" class="mb-6">
-    <textarea formControlName="content" rows="3" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent mb-2"></textarea>
-    <button type="submit" [disabled]="commentForm.invalid" class="bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
+  <form 
+    *ngIf="showCommentInput" 
+    [formGroup]="commentForm" 
+    (ngSubmit)="addComment()" 
+    class="mb-6"
+  >
+    <textarea 
+      formControlName="content" 
+      rows="3" 
+      class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent mb-2"
+    ></textarea>
+    <button 
+      type="submit" 
+      [disabled]="commentForm.invalid" 
+      class="bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
+    >
       Submit Comment
     </button>
   </form>
-  
+
   <!-- Comments Section -->
   <div *ngFor="let comment of article.comments" class="mb-6 bg-secondary p-4 rounded-lg">
     <p class="mb-2">{{ comment.content }}</p>
-    <p class="text-sm text-gray-400">By {{ comment.user }} on {{ comment.createdAt | date }}</p>
+    <p class="text-sm text-gray-400">By {{ comment.username }} on {{ comment.createdAt | date }}</p>
     
     <!-- Replies Section -->
     <div *ngFor="let reply of comment.replies" class="ml-8 mt-2 bg-primary p-2 rounded">
       <p class="mb-1">{{ reply.content }}</p>
-      <p class="text-sm text-gray-400">By {{ reply.user }} on {{ reply.createdAt | date }}</p>
+      <p class="text-sm text-gray-400">By {{ reply.username }} on {{ reply.createdAt | date }}</p>
     </div>
-    
+
     <!-- Toggle Reply Input -->
-    <button *ngIf="isLoggedIn" (click)="toggleReplyInput(comment._id)" class="text-sm bg-accent text-white py-1 px-3 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent mt-2">
+    <button 
+      *ngIf="isLoggedIn" 
+      (click)="toggleReplyInput(comment._id)" 
+      class="text-sm bg-accent text-white py-1 px-3 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent mt-2"
+    >
       {{ replyInputs[comment._id] ? 'Cancel' : 'Reply' }}
     </button>
-    
+
     <!-- Reply Input -->
-    <form *ngIf="replyInputs[comment._id]" [formGroup]="replyForm" (ngSubmit)="addReply(comment._id)" class="mt-2">
-      <textarea formControlName="content" rows="2" class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent mb-2"></textarea>
-      <button type="submit" [disabled]="replyForm.invalid" class="bg-accent text-white py-1 px-3 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent text-sm">
+    <form 
+      *ngIf="replyInputs[comment._id]" 
+      [formGroup]="replyForms[comment._id]" 
+      (ngSubmit)="addReply(comment._id)" 
+      class="mt-2"
+    >
+      <textarea 
+        formControlName="content" 
+        rows="2" 
+        class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent mb-2"
+      ></textarea>
+      <button 
+        type="submit" 
+        [disabled]="replyForms[comment._id].invalid" 
+        class="bg-accent text-white py-1 px-3 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent text-sm"
+      >
         Submit Reply
       </button>
     </form>

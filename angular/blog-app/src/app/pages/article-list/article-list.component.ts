@@ -58,7 +58,6 @@ export class ArticleListComponent implements OnInit {
       next: (articles: Article[]) => {
         this.articles = articles;
         this.filteredArticles = this.isAdmin ? articles : articles.filter(a => a.isApproved);
-        console.log('farticles',this.isAdmin)
         this.isLoading = false;
       },
       error: (error: any) => {
