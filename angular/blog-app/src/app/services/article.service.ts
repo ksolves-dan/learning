@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 export interface Reply {
   _id: string;
   user: string;
-  username: string;  // Added to match backend
+  username: string;  
   content: string;
   createdAt: string;
 }
@@ -15,7 +15,7 @@ export interface Reply {
 export interface Comment {
   _id: string;
   user: string;
-  username: string;  // Added to match backend
+  username: string; 
   content: string;
   createdAt: string;
   replies: Reply[];

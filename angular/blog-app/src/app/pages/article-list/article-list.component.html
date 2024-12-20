@@ -30,7 +30,7 @@
         <a [routerLink]="['/view-blog', article._id]" class="text-accent hover:underline">Read More</a>
         <ng-container *ngIf="isAdmin || isAuthor(article)">
           <a [routerLink]="['/edit-blog', article._id]" class="text-accent hover:underline">Edit</a>
-          <button (click)="deleteArticle(article._id)" class="text-red-500 hover:underline">Delete</button>
+          <button (click)="openDeleteModal(article)" class="text-red-500 hover:underline">Delete</button>
           <button *ngIf="isAdmin && !article.isApproved" (click)="approveArticle(article._id)" class="text-green-500 hover:underline">Approve</button>
         </ng-container>
       </div>
@@ -39,3 +39,12 @@
 
   <p *ngIf="filteredArticles.length === 0 && !isLoading" class="text-center text-gray-400 mt-6">No blogs found.</p>
 </div>
+
+<app-confirmation-modal
+  [isOpen]="isDeleteModalOpen"
+  title="Confirm Deletion"
+  [message]="'Are you sure you want to delete the article: ' + (articleToDelete?.title || '')"
+  (confirm)="confirmDelete()"
+  (cancel)="closeDeleteModal()"
+></app-confirmation-modal>
+

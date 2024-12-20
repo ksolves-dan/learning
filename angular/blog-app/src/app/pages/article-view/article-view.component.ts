@@ -59,7 +59,6 @@ export class ArticleViewComponent implements OnInit {
   initReplyForm(commentId: string): void {
     this.replyForms[commentId] = this.fb.group({
       content: ['', Validators.required],
-      commentId: [commentId]
     });
   }
 
@@ -71,15 +70,12 @@ export class ArticleViewComponent implements OnInit {
   }
 
   toggleReplyInput(commentId: string): void {
-    // Initialize form if it doesn't exist
     if (!this.replyForms[commentId]) {
       this.initReplyForm(commentId);
     }
-    
     this.replyInputs[commentId] = !this.replyInputs[commentId];
     if (!this.replyInputs[commentId]) {
       this.replyForms[commentId].reset();
-      this.replyForms[commentId].patchValue({ commentId: commentId });
     }
   }
 
@@ -89,7 +85,7 @@ export class ArticleViewComponent implements OnInit {
         next: (comment) => {
           if (this.article) {
             this.article.comments.push(comment);
-            this.initReplyForm(comment._id); // Initialize reply form for new comment
+            this.initReplyForm(comment._id);
             this.commentForm.reset();
             this.showCommentInput = false;
           }
@@ -114,7 +110,6 @@ export class ArticleViewComponent implements OnInit {
           if (comment) {
             comment.replies.push(reply);
             replyForm.reset();
-            replyForm.patchValue({ commentId: commentId });
             this.replyInputs[commentId] = false;
           }
         },
@@ -125,3 +120,4 @@ export class ArticleViewComponent implements OnInit {
     }
   }
 }
+

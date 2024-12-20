@@ -13,18 +13,23 @@
     </div>
     <div>
       <label for="tags" class="block text-sm font-medium mb-1">Tags</label>
-      <tag-input
-        formControlName="tags"
-        [secondaryPlaceholder]="'Enter tags'"
-        [placeholder]="'+ Tag'"
-        [separatorKeyCodes]="[13, 188]"
-        [addOnBlur]="true"
-        [modelAsStrings]="true"
-        class="bg-primary border border-gray-600 rounded-md text-primary-foreground text-black focus-within:ring-2 focus-within:ring-accent" 
-        [theme]="'dark'"
-        [ripple]="false"
-      >
-      </tag-input>
+          <tag-input
+      formControlName="tags"
+      [secondaryPlaceholder]="'Enter tags'"
+      [placeholder]="'+ Tag'"
+      [separatorKeyCodes]="[13, 188]"
+      [addOnBlur]="true"
+      [modelAsStrings]="true"
+      class="bg-primary border border-gray-600 rounded-md text-black focus-within:ring-2 focus-within:ring-accent"
+      [theme]="'dark'"
+      [ripple]="false"
+      [inputClass]="'text-black'"
+      [style]="{
+        'color': 'black',
+        '--tag-color': 'black',
+        '--tag-input-color': 'black'
+      }"
+    ></tag-input>
     </div>
     <div>
       <label for="content" class="block text-sm font-medium mb-1">Content</label>

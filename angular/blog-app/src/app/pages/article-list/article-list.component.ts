@@ -4,6 +4,7 @@ import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ArticleService } from '../../services/article.service';
 import { AuthService } from '../../services/auth.service';
+import { ConfirmationModalComponent } from '../../components/confirmation-modal/confirmation-modal.component';
 
 interface Article {
   _id: string;
@@ -19,7 +20,7 @@ interface Article {
 @Component({
   selector: 'app-article-list',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, FormsModule, DatePipe],
+  imports: [RouterLink, NgFor, NgIf, FormsModule, DatePipe, ConfirmationModalComponent],
   templateUrl: './article-list.component.html',
 })
 export class ArticleListComponent implements OnInit {
@@ -28,6 +29,8 @@ export class ArticleListComponent implements OnInit {
   searchTerm: string = '';
   isLoading: boolean = true;
   error: string | null = null;
+  isDeleteModalOpen: boolean = false;
+  articleToDelete: Article | null = null;
 
   constructor(
     private articleService: ArticleService,
@@ -76,19 +79,34 @@ export class ArticleListComponent implements OnInit {
     );
   }
 
-  deleteArticle(id: string): void {
-    if (confirm('Are you sure you want to delete this article?')) {
-      this.articleService.deleteArticle(id).subscribe({
-        next: () => {
-          this.articles = this.articles.filter(article => article._id !== id);
-          this.onSearch();
-        },
-        error: (error: any) => {
-          console.error('Error deleting article', error);
-          this.error = 'Failed to delete the article. Please try again.';
-        }
-      });
+  openDeleteModal(article: Article): void {
+    this.articleToDelete = article;
+    this.isDeleteModalOpen = true;
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalOpen = false;
+    this.articleToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (this.articleToDelete) {
+      this.deleteArticle(this.articleToDelete._id);
+      this.closeDeleteModal();
     }
+  }
+
+  deleteArticle(id: string): void {
+    this.articleService.deleteArticle(id).subscribe({
+      next: () => {
+        this.articles = this.articles.filter(article => article._id !== id);
+        this.onSearch();
+      },
+      error: (error: any) => {
+        console.error('Error deleting article', error);
+        this.error = 'Failed to delete the article. Please try again.';
+      }
+    });
   }
 
   approveArticle(id: string): void {

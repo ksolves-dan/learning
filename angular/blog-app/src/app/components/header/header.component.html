@@ -64,8 +64,14 @@
               Logout
             </button>
           </li>
+          <li>
+            <span class="text-primary-foreground mr-4">
+              {{ currentUser?.name }} ({{ userRole | titlecase }})
+            </span>
+          </li>
         </ng-template>
       </ul>
     </div>
   </nav>
 </header>
+

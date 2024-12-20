@@ -1,30 +1,45 @@
-<div class="max-w-md mx-auto">
-  <h2 class="text-2xl font-bold mb-6 text-primary-foreground">Contact Us</h2>
-  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-    <div class="mb-4">
-      <label for="name" class="block text-sm font-medium mb-1 text-primary-foreground">Name</label>
-      <input type="text" id="name" formControlName="name" 
-             class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-6 text-primary-foreground">Contact Us</h2>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium mb-1 text-primary-foreground">Name</label>
+        <input type="text" id="name" formControlName="name" 
+               class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium mb-1 text-primary-foreground">Email</label>
+        <input type="email" id="email" formControlName="email" 
+               class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
+      </div>
+      <div class="mb-4">
+        <label for="message" class="block text-sm font-medium mb-1 text-primary-foreground">Message</label>
+        <textarea id="message" formControlName="message" rows="4" 
+                  class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+      </div>
+      <button type="submit" 
+              [disabled]="contactForm.invalid || isSubmitting" 
+              class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+      </button>
+    </form>
+    <p *ngIf="submitMessage" 
+       class="mt-4 text-center" 
+       [ngClass]="{'text-green-500': submitSuccess, 'text-red-500': !submitSuccess}">
+      {{ submitMessage }}
+    </p>
+  </div>
+
+  <div *ngIf="isAdmin" class="mt-12">
+    <h2 class="text-2xl font-bold mb-6 text-primary-foreground">Contact Submissions</h2>
+    <div *ngIf="isLoadingSubmissions" class="text-center text-primary-foreground">Loading submissions...</div>
+    <div *ngIf="submissions.length === 0 && !isLoadingSubmissions" class="text-center text-primary-foreground">No submissions found.</div>
+    <div *ngFor="let submission of submissions" class="bg-secondary p-6 rounded-lg shadow-md mb-4">
+      <h3 class="text-xl font-semibold mb-2 text-primary-foreground">{{ submission.name }}</h3>
+      <p class="text-gray-300 mb-2">{{ submission.email }}</p>
+      <p class="mb-2 text-primary-foreground">{{ submission.message }}</p>
+      <p class="text-sm text-gray-400">Submitted on: {{ submission.createdAt | date:'medium' }}</p>
     </div>
-    <div class="mb-4">
-      <label for="email" class="block text-sm font-medium mb-1 text-primary-foreground">Email</label>
-      <input type="email" id="email" formControlName="email" 
-             class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent">
-    </div>
-    <div class="mb-4">
-      <label for="message" class="block text-sm font-medium mb-1 text-primary-foreground">Message</label>
-      <textarea id="message" formControlName="message" rows="4" 
-                class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
-    </div>
-    <button type="submit" 
-            [disabled]="contactForm.invalid || isSubmitting" 
-            class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed">
-      {{ isSubmitting ? 'Sending...' : 'Send Message' }}
-    </button>
-  </form>
-  <p *ngIf="submitMessage" 
-     class="mt-4 text-center" 
-     [ngClass]="{'text-green-500': submitSuccess, 'text-red-500': !submitSuccess}">
-    {{ submitMessage }}
-  </p>
+  </div>
 </div>
+
