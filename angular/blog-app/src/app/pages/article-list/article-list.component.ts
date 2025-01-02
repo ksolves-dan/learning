@@ -1,3 +1,4 @@
+// article-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
@@ -7,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { ConfirmationModalComponent } from '../../components/confirmation-modal/confirmation-modal.component';
 
 interface Article {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   content: string
@@ -31,6 +32,12 @@ export class ArticleListComponent implements OnInit {
   error: string | null = null;
   isDeleteModalOpen: boolean = false;
   articleToDelete: Article | null = null;
+  
+  // Track loading states for individual articles
+  loadingStates = {
+    deleting: new Set<string>(),
+    approving: new Set<string>()
+  };
 
   constructor(
     private articleService: ArticleService,
@@ -51,7 +58,15 @@ export class ArticleListComponent implements OnInit {
 
   isAuthor(article: Article): boolean {
     const currentUser = this.authService.getCurrentUser();
-    return currentUser !== null && article.author === currentUser._id;
+    return currentUser !== null && article.author === currentUser.id;
+  }
+
+  isDeleting(articleId: string): boolean {
+    return this.loadingStates.deleting.has(articleId);
+  }
+
+  isApproving(articleId: string): boolean {
+    return this.loadingStates.approving.has(articleId);
   }
 
   loadArticles(): void {
@@ -74,7 +89,7 @@ export class ArticleListComponent implements OnInit {
   onSearch(): void {
     this.filteredArticles = this.articles.filter(article =>
       (article.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      article.description.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
+        article.description.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
       (this.isAdmin || article.isApproved)
     );
   }
@@ -91,38 +106,45 @@ export class ArticleListComponent implements OnInit {
 
   confirmDelete(): void {
     if (this.articleToDelete) {
-      this.deleteArticle(this.articleToDelete._id);
+      this.deleteArticle(this.articleToDelete.id);
       this.closeDeleteModal();
     }
   }
 
   deleteArticle(id: string): void {
+    this.loadingStates.deleting.add(id);
+    
     this.articleService.deleteArticle(id).subscribe({
       next: () => {
-        this.articles = this.articles.filter(article => article._id !== id);
+        this.articles = this.articles.filter(article => article.id !== id);
         this.onSearch();
+        this.loadingStates.deleting.delete(id);
       },
       error: (error: any) => {
         console.error('Error deleting article', error);
         this.error = 'Failed to delete the article. Please try again.';
+        this.loadingStates.deleting.delete(id);
       }
     });
   }
 
   approveArticle(id: string): void {
+    this.loadingStates.approving.add(id);
+    
     this.articleService.approveArticle(id).subscribe({
       next: (updatedArticle) => {
-        const index = this.articles.findIndex(a => a._id === id);
+        const index = this.articles.findIndex(a => a.id === id);
         if (index !== -1) {
           this.articles[index] = updatedArticle;
           this.onSearch();
         }
+        this.loadingStates.approving.delete(id);
       },
       error: (error: any) => {
         console.error('Error approving article', error);
         this.error = 'Failed to approve the article. Please try again.';
+        this.loadingStates.approving.delete(id);
       }
     });
   }
 }
-

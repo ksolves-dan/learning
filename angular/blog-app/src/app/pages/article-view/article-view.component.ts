@@ -47,7 +47,7 @@ export class ArticleViewComponent implements OnInit {
         this.article = article;
         // Initialize reply forms for each comment
         this.article.comments.forEach(comment => {
-          this.initReplyForm(comment._id);
+          this.initReplyForm(comment.id);
         });
       },
       error: (error) => {
@@ -79,19 +79,25 @@ export class ArticleViewComponent implements OnInit {
     }
   }
 
+  isSubmittingComment = false;
+  isSubmittingReplies: { [commentId: string]: boolean } = {};
+
   addComment(): void {
     if (this.commentForm.valid && this.article) {
-      this.articleService.addComment(this.article._id, this.commentForm.value.content).subscribe({
+      this.isSubmittingComment = true;
+      this.articleService.addComment(this.article.id, this.commentForm.value.content).subscribe({
         next: (comment) => {
           if (this.article) {
             this.article.comments.push(comment);
-            this.initReplyForm(comment._id);
+            this.initReplyForm(comment.id);
             this.commentForm.reset();
             this.showCommentInput = false;
           }
+          this.isSubmittingComment = false;
         },
         error: (error) => {
           console.error('Error adding comment', error);
+          this.isSubmittingComment = false;
         },
       });
     }
@@ -100,24 +106,26 @@ export class ArticleViewComponent implements OnInit {
   addReply(commentId: string): void {
     const replyForm = this.replyForms[commentId];
     if (replyForm && replyForm.valid && this.article) {
+      this.isSubmittingReplies[commentId] = true;
       this.articleService.addReply(
-        this.article._id,
+        this.article.id,
         commentId,
         replyForm.value.content
       ).subscribe({
         next: (reply) => {
-          const comment = this.article?.comments.find((c) => c._id === commentId);
+          const comment = this.article?.comments.find((c) => c.id === commentId);
           if (comment) {
             comment.replies.push(reply);
             replyForm.reset();
             this.replyInputs[commentId] = false;
           }
+          this.isSubmittingReplies[commentId] = false;
         },
         error: (error) => {
           console.error('Error adding reply', error);
+          this.isSubmittingReplies[commentId] = false;
         },
       });
     }
   }
 }
-

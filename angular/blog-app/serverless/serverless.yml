@@ -1,0 +1,179 @@
+service: serverless-blog-app
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-south-1'}
+  environment:
+    JWT_SECRET: ${ssm:/blog-app/${self:provider.stage}/JWT_SECRET}
+  iam:
+    role: arn:aws:iam::585768182535:role/serverless-blog-app-lambda-role
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/Users-${self:provider.stage}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/Articles-${self:provider.stage}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/ContactSubmissions-${self:provider.stage}"
+
+functions:
+  register:
+    handler: functions/auth/register.handler
+    events:
+      - http:
+          path: auth/register
+          method: post
+          cors: true
+
+  login:
+    handler: functions/auth/login.handler
+    events:
+      - http:
+          path: auth/login
+          method: post
+          cors: true
+
+  profile:
+    handler: functions/auth/profile.handler
+    events:
+      - http:
+          path: auth/profile
+          method: get
+          cors: true
+
+  getAllArticles:
+    handler: functions/articles/getAllArticles.handler
+    events:
+      - http:
+          path: articles
+          method: get
+          cors: true
+
+  getArticleById:
+    handler: functions/articles/getArticleById.handler
+    events:
+      - http:
+          path: articles/{id}
+          method: get
+          cors: true
+
+  createArticle:
+    handler: functions/articles/createArticle.handler
+    events:
+      - http:
+          path: articles
+          method: post
+          cors: true
+
+  updateArticle:
+    handler: functions/articles/updateArticle.handler
+    events:
+      - http:
+          path: articles/{id}
+          method: put
+          cors: true
+
+  deleteArticle:
+    handler: functions/articles/deleteArticle.handler
+    events:
+      - http:
+          path: articles/{id}
+          method: delete
+          cors: true
+
+  approveArticle:
+    handler: functions/articles/approveArticle.handler
+    events:
+      - http:
+          path: articles/{id}/approve
+          method: put
+          cors: true
+
+  addComment:
+    handler: functions/articles/addComment.handler
+    events:
+      - http:
+          path: articles/{id}/comments
+          method: post
+          cors: true
+
+  addReply:
+    handler: functions/articles/addReply.handler
+    events:
+      - http:
+          path: articles/{articleId}/comments/{commentId}/replies
+          method: post
+          cors: true
+
+  submitContactForm:
+    handler: functions/contact/submitContactForm.handler
+    events:
+      - http:
+          path: contact
+          method: post
+          cors: true
+
+  getContactSubmissions:
+    handler: functions/contact/getContactSubmissions.handler
+    events:
+      - http:
+          path: contact
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: Users-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: EmailIndex
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+
+    ArticlesTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: Articles-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    ContactSubmissionsTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ContactSubmissions-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST

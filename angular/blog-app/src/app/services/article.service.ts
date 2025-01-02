@@ -5,7 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface Reply {
-  _id: string;
+  id: string;
   user: string;
   username: string;  
   content: string;
@@ -13,7 +13,7 @@ export interface Reply {
 }
 
 export interface Comment {
-  _id: string;
+  id: string;
   user: string;
   username: string; 
   content: string;
@@ -22,7 +22,7 @@ export interface Comment {
 }
 
 export interface Article {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   content: string;

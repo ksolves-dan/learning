@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 
 interface ContactSubmission {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   message: string;

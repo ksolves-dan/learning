@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 interface User {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   role: string;

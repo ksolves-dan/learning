@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://production-api-url.com/api'
+  apiUrl: 'https://your-api-gateway-endpoint.execute-api.your-region.amazonaws.com/prod'
 };
-

@@ -29,12 +29,12 @@
       rows="3" 
       class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent mb-2"
     ></textarea>
-    <button 
-      type="submit" 
-      [disabled]="commentForm.invalid" 
-      class="bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
+    <button
+      type="submit"
+      [disabled]="commentForm.invalid || isSubmittingComment"
+      class="bg-accent text-white py-2 px-4 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      Submit Comment
+      {{ isSubmittingComment ? 'Submitting...' : 'Submit Comment' }}
     </button>
   </form>
 
@@ -52,17 +52,17 @@
     <!-- Toggle Reply Input -->
     <button 
       *ngIf="isLoggedIn" 
-      (click)="toggleReplyInput(comment._id)" 
+      (click)="toggleReplyInput(comment.id)" 
       class="text-sm bg-accent text-white py-1 px-3 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent mt-2"
     >
-      {{ replyInputs[comment._id] ? 'Cancel' : 'Reply' }}
+      {{ replyInputs[comment.id] ? 'Cancel' : 'Reply' }}
     </button>
 
     <!-- Reply Input -->
     <form 
-      *ngIf="replyInputs[comment._id]" 
-      [formGroup]="replyForms[comment._id]" 
-      (ngSubmit)="addReply(comment._id)" 
+      *ngIf="replyInputs[comment.id]" 
+      [formGroup]="replyForms[comment.id]" 
+      (ngSubmit)="addReply(comment.id)" 
       class="mt-2"
     >
       <textarea 
@@ -70,12 +70,12 @@
         rows="2" 
         class="w-full px-3 py-2 bg-primary border border-gray-600 rounded-md text-primary-foreground focus:outline-none focus:ring-2 focus:ring-accent mb-2"
       ></textarea>
-      <button 
-        type="submit" 
-        [disabled]="replyForms[comment._id].invalid" 
-        class="bg-accent text-white py-1 px-3 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent text-sm"
+      <button
+        type="submit"
+        [disabled]="replyForms[comment.id].invalid || isSubmittingReplies[comment.id]"
+        class="bg-accent text-white py-1 px-3 rounded-md hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent text-sm disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Submit Reply
+        {{ isSubmittingReplies[comment.id] ? 'Submitting...' : 'Submit Reply' }}
       </button>
     </form>
   </div>
